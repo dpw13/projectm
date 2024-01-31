@@ -171,6 +171,12 @@ void projectm_opengl_render_frame(projectm_handle instance)
     projectMInstance->RenderFrame();
 }
 
+GLint projectm_opengl_get_output_texture(projectm_handle instance, GLint internalFormat, GLenum format, GLenum type)
+{
+    auto projectMInstance = handle_to_instance(instance);
+    return projectMInstance->GetOutputCopy(internalFormat, format, type);
+}
+
 void projectm_set_beat_sensitivity(projectm_handle instance, float sensitivity)
 {
     auto projectMInstance = handle_to_instance(instance);

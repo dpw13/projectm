@@ -27,8 +27,8 @@ public:
     float vol{0.f};
     float volAtt{0.f};
 
-    std::array<float, WaveformSamples> waveformLeft;
-    std::array<float, WaveformSamples> waveformRight;
+    std::array<float, AudioBufferSamples> waveformLeft;
+    std::array<float, AudioBufferSamples> waveformRight;
 
     std::array<float, SpectrumSamples> spectrumLeft;
     std::array<float, SpectrumSamples> spectrumRight;

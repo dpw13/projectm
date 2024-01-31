@@ -29,6 +29,7 @@ public:
 
     /**
      * @brief Constructor. Allocates a new, empty texture with the given size.
+     * 
      * @param name Optional name of the texture for referencing in Milkdrop shaders.
      * @param width Width in pixels.
      * @param height Height in pixels.
@@ -38,9 +39,13 @@ public:
 
     /**
      * @brief Constructor. Allocates a new, empty texture with the given size and format.
+     * 
      * @param name Optional name of the texture for referencing in Milkdrop shaders.
      * @param width Width in pixels.
      * @param height Height in pixels.
+     * @param internalFormat The number of color components in the texture, e.g. GL_RGB, GL_RGBA4.
+     * @param format Specifies the format of the pixel data, e.g. GL_RED, GL_BGRA.
+     * @param type Specifies the data type of the pixel data, e.g. GL_UNSIGNED_SHORT_5_6_5, GL_UNSIGNED_INT_8_8_8_8.
      * @param isUserTexture true if the texture is an externally-loaded image, false if it's an internal texture.
      */
     explicit Texture(std::string name, int width, int height,
@@ -48,6 +53,7 @@ public:
 
     /**
      * @brief Constructor. Creates a new texture instance from an existing OpenGL texture.
+     * 
      * The class will take ownership of the texture, e.g. freeing it when destroyed!
      * @param name Optional name of the texture for referencing in Milkdrop shaders.
      * @param texID The OpenGL texture name (ID).
@@ -114,6 +120,13 @@ public:
      * @return true if the texture is a user texture, false if it's an internally generated texture.
      */
     auto IsUserTexture() const -> bool;
+
+    /**
+     * @brief Copies from the current pixel read source into this texture.
+     * @param slot The texture unit to use.
+     * @param x, y Specify the window coordinates of the lower left corner of the rectangular region of pixels to be copied.
+     */
+    void CopyInto(GLint slot, GLint x, GLint y) const;
 
 private:
     void CreateEmptyTexture();

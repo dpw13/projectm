@@ -41,11 +41,11 @@ public:
               bool flipVertical = false, bool flipHorizontal = false);
 
     /**
-     * @brief Copies the texture bound the given framebuffer's first color attachment.
+     * @brief Copies the texture bound to the given framebuffer's first color attachment.
      * This is done by drawing into a second framebuffer, then swapping the textures, so the original texture
      * can be the current color attachment of targetFramebuffer.
      * @param originalTexture The texture to be copied.
-     * @param targetFramebuffer Optional target texture to draw onto.
+     * @param targetFramebuffer Optional target framebuffer to draw onto.
      * @param framebufferIndex The index of the framebuffer to use.
      * @param flipVertical Flip image on the y axis when copying.
      * @param flipHorizontal Flip image on the x axis when copying.

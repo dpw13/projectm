@@ -25,6 +25,7 @@
 
 #pragma once
 
+#include <GL/glew.h>
 #include "projectM-4/types.h"
 
 #ifdef __cplusplus
@@ -40,6 +41,21 @@ extern "C" {
  * @param instance The projectM instance handle.
  */
 PROJECTM_EXPORT void projectm_opengl_render_frame(projectm_handle instance);
+
+/**
+ * @brief Creates and returns the GL name (ID) of a texture that holds a copy of
+ * the output frame.
+ * 
+ * The size will always match the size of the window and is updated if the window
+ * size is changed.
+ * 
+ * @param instance The projectM instance handle.
+ * @param internalFormat The number of color components in the texture, e.g. GL_RGB, GL_RGBA4.
+ * @param format Specifies the format of the pixel data, e.g. GL_RED, GL_BGRA.
+ * @param type Specifies the data type of the pixel data, e.g. GL_UNSIGNED_SHORT_5_6_5, GL_UNSIGNED_INT_8_8_8_8.
+ * @return The ID of the new texture.
+ */
+PROJECTM_EXPORT GLint projectm_opengl_get_output_texture(projectm_handle instance, GLint internalFormat, GLenum format, GLenum type);
 
 #ifdef __cplusplus
 } // extern "C"

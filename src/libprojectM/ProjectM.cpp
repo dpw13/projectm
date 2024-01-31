@@ -178,6 +178,17 @@ void ProjectM::RenderFrame()
         m_textureCopier->Draw(m_activePreset->OutputTexture(), false, false);
     }
 
+    if (m_outputCopy != nullptr)
+    {
+        // Copy the rendered output (including transitions) to the output texture.
+        
+        // Set the default output frame
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+        glReadBuffer(GL_BACK); // Read from the just-rendered frame before it's swapped
+        // Copy into the output texture
+        m_outputCopy->CopyInto(0, 0, 0);
+    }
+
     m_frameCount++;
     m_previousFrameVolume = audioData.vol;
 }
@@ -221,6 +232,8 @@ void ProjectM::SetWindowSize(uint32_t width, uint32_t height)
     /** Stash the new dimensions */
     m_windowWidth = width;
     m_windowHeight = height;
+    /* Destroy the old output copy texture */
+    m_outputCopy.reset();
 }
 
 void ProjectM::StartPresetTransition(std::unique_ptr<Preset>&& preset, bool hardCut)
@@ -445,6 +458,16 @@ auto ProjectM::GetRenderContext() -> Renderer::RenderContext
     ctx.textureManager = m_textureManager.get();
 
     return ctx;
+}
+
+auto ProjectM::GetOutputCopy(GLint internalFormat, GLenum format, GLenum type) -> GLint
+{
+    if (m_outputCopy == nullptr)
+    {
+        // Create new texture if one does not yet exist
+        m_outputCopy = std::make_unique<Renderer::Texture>("Output copy", m_windowWidth, m_windowHeight, internalFormat, format, type, false);
+    }
+    return m_outputCopy->TextureID();
 }
 
 } // namespace libprojectM

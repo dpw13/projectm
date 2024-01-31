@@ -107,5 +107,12 @@ void Texture::CreateEmptyTexture()
     glBindTexture(m_target, 0);
 }
 
+void Texture::CopyInto(GLint slot, GLint x, GLint y) const
+{
+    Bind(slot);
+    glCopyTexImage2D(GL_TEXTURE_2D, 0, m_internalFormat, x, y, m_width, m_height, 0);
+    Unbind(slot);
+}
+
 } // namespace Renderer
 } // namespace libprojectM

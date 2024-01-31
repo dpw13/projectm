@@ -36,6 +36,7 @@ namespace Renderer {
 class CopyTexture;
 class PresetTransition;
 class Renderer;
+class Texture;
 class TextureManager;
 class TransitionShaderManager;
 } // namespace Renderer
@@ -175,6 +176,20 @@ public:
 
     auto WindowHeight() -> int;
 
+    /**
+     * @brief Creates and returns the GL name (ID) of a texture that holds a copy of
+     * the output frame.
+     * 
+     * The size will always match the size of the window and is updated if the window
+     * size is changed.
+     * 
+     * @param internalFormat The number of color components in the texture, e.g. GL_RGB, GL_RGBA4.
+     * @param format Specifies the format of the pixel data, e.g. GL_RED, GL_BGRA.
+     * @param type Specifies the data type of the pixel data, e.g. GL_UNSIGNED_SHORT_5_6_5, GL_UNSIGNED_INT_8_8_8_8.
+     * @return The ID of the new texture.
+     */
+    auto GetOutputCopy(GLint internalFormat, GLenum format, GLenum type) -> GLint;
+
 private:
     void Initialize();
 
@@ -217,6 +232,7 @@ private:
     std::unique_ptr<Preset> m_transitioningPreset;                                //!< Destination preset when smooth preset switching.
     std::unique_ptr<Renderer::PresetTransition> m_transition;                     //!< Transition effect used for blending.
     std::unique_ptr<TimeKeeper> m_timeKeeper;                                     //!< Keeps the different timers used to render and switch presets.
+    std::unique_ptr<Renderer::Texture> m_outputCopy;                              //!< Optional texture containing a copy of the rendered output.
 };
 
 } // namespace libprojectM

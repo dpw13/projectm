@@ -15,6 +15,8 @@
 #include <regex>
 #include <set>
 
+#include <fstream>
+
 namespace libprojectM {
 namespace MilkdropPreset {
 
@@ -619,13 +621,29 @@ void MilkdropShader::TranspileHLSLShader(const PresetState& presetState, std::st
 
     // Now we have GLSL source for the preset shader program (hopefully it's valid!)
     // Compile the preset shader fragment shader with the standard vertex shader and cross our fingers.
+    const char* result = generator.GetResult();
+    std::ofstream ofs;
     if (m_type == ShaderType::WarpShader)
     {
-        m_shader.CompileProgram(MilkdropStaticShaders::Get()->GetPresetWarpVertexShader(), generator.GetResult());
+        ofs.open("warp.hlsl");
+        ofs << sourcePreprocessed << std::endl;
+        ofs.close();
+
+        ofs.open("warp.glsl");
+        ofs << result << std::endl;
+        ofs.close();
+        m_shader.CompileProgram(MilkdropStaticShaders::Get()->GetPresetWarpVertexShader(), result);
     }
     else
     {
-        m_shader.CompileProgram(MilkdropStaticShaders::Get()->GetPresetCompVertexShader(), generator.GetResult());
+        ofs.open("comp.hlsl");
+        ofs << sourcePreprocessed << std::endl;
+        ofs.close();
+
+        ofs.open("comp.glsl");
+        ofs << result << std::endl;
+        ofs.close();
+        m_shader.CompileProgram(MilkdropStaticShaders::Get()->GetPresetCompVertexShader(), result);
     }
 }
 

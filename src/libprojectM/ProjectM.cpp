@@ -449,8 +449,12 @@ auto ProjectM::GetRenderContext() -> Renderer::RenderContext
     ctx.progress = static_cast<float>(m_timeKeeper->PresetProgressA());
     ctx.fps = static_cast<float>(m_targetFps);
     ctx.frame = m_frameCount;
-    ctx.aspectX = (m_windowHeight > m_windowWidth) ? static_cast<float>(m_windowWidth) / static_cast<float>(m_windowHeight) : 1.0f;
-    ctx.aspectY = (m_windowWidth > m_windowHeight) ? static_cast<float>(m_windowHeight) / static_cast<float>(m_windowWidth) : 1.0f;
+    // 640x480
+    // aspectX = 1.0, aspectY = 480/640
+    float effectiveHeight = static_cast<float>(m_windowHeight) * m_heightMult;
+    float effectiveWidth = static_cast<float>(m_windowWidth) * m_widthMult;
+    ctx.aspectX = (effectiveHeight > effectiveWidth) ? effectiveWidth / effectiveHeight : 1.0f;
+    ctx.aspectY = (effectiveWidth > effectiveHeight) ? effectiveHeight / effectiveWidth : 1.0f;
     ctx.invAspectX = 1.0f / ctx.aspectX;
     ctx.invAspectY = 1.0f / ctx.aspectY;
     ctx.perPixelMeshX = static_cast<int>(m_meshX);

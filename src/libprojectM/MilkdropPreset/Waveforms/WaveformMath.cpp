@@ -60,14 +60,8 @@ auto WaveformMath::GetVertices(const PresetState& presetState,
     }
 
     // Aspect multipliers
-    if (presetState.renderContext.viewportSizeX > presetState.renderContext.viewportSizeY)
-    {
-        m_aspectY = static_cast<float>(presetState.renderContext.viewportSizeY) / static_cast<float>(presetState.renderContext.viewportSizeX);
-    }
-    else
-    {
-        m_aspectX = static_cast<float>(presetState.renderContext.viewportSizeX) / static_cast<float>(presetState.renderContext.viewportSizeY);
-    }
+    m_aspectX = presetState.renderContext.aspectX;
+    m_aspectY = presetState.renderContext.aspectY;
 
     m_mysteryWaveParam = static_cast<float>(*presetPerFrameContext.wave_mystery);
 
